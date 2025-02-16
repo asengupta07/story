@@ -118,5 +118,5 @@ async function postHandler(request: NextRequest) {
 }
 
 export {
-    postHandler
+    postHandler as POST
 }

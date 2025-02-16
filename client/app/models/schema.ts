@@ -75,6 +75,18 @@ const StorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    moral: {
+        type: String,
+        required: true
+    },
+    writingStyle: {
+        type: String,
+        required: true
+    },
+    wordCount: {
+        type: Number,
+        required: true
+    },
     contentWarnings: {
         type: [String],
         required: false
