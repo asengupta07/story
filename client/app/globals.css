@@ -31,12 +31,13 @@
 }
 
 .dark {
+  --main: #8d66f8;
   --bg: #272733;
   --bw: #212121;
   --blank: #fff;
-  --border: #000;
+  --border: #e3dff2;
   --text: #e6e6e6;
-  --mtext: #000;
+  --mtext: #fff;
   --ring: #fff;
   --ring-offset: #000;
 

@@ -1,65 +1,24 @@
 "use client";
+
 import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Code, Coins, PenTool, Sparkles, Users } from "lucide-react";
-import Link from "next/link";
-import LoginButton from "./privy/page";
-import { useAccount } from "wagmi";
+import LoginButton from "@/components/functions/ConnectButton";
+import NavBar from "@/components/functions/NavBar";
 
 export default function LandingPage() {
-  const { address } = useAccount();
-  console.log("addressguchu", address);
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">StoryForge</span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link
-              href="#features"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Features
-            </Link>
-            <Link
-              href="#creators"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Creators
-            </Link>
-            <Link
-              href="#readers"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Readers
-            </Link>
-            <Link
-              href="#tokens"
-              className="text-sm font-medium hover:text-primary"
-            >
-              $STORY Tokens
-            </Link>
-          </nav>
-          <div className="flex items-center gap-1">
-            <Button variant="ghost">Sign In</Button>
-            {/* <Button>Connect Wallet</Button> */}
-            <LoginButton />
-          </div>
-        </div>
-      </header>
-
+    <div className="flex min-h-screen flex-col items-center">
+      <NavBar />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden py-24">
           <div className="container relative z-10">
             <div className="mx-auto max-w-3xl text-center">
-              <Badge variant="secondary" className="mb-4">
+              <Badge variant="default" className="mb-4">
                 The Future of Storytelling
               </Badge>
               <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl">
@@ -75,7 +34,7 @@ export default function LandingPage() {
               </p>
               <div className="flex justify-center gap-4 items-center">
                 <LoginButton />
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="default">
                   Explore Stories
                 </Button>
               </div>
@@ -242,7 +201,7 @@ export default function LandingPage() {
                 >
                   Create Your Story
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="default">
                   Learn More
                 </Button>
               </div>
