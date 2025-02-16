@@ -13,6 +13,19 @@ export interface UserInterface {
 }
 
 
+export interface StorySettingsInterface {
+    title: string;
+    agentWriter: boolean;
+    interval: number;
+    storyId: string;
+    moral: string;
+    writingStyle: string;
+    wordCount: number;
+    contentWarnings?: string[];
+    additionalInstructions?: string;
+    guidelines?: string;
+}
+
 export interface StoryInterface {
     title: string;
     genre: string;
@@ -22,12 +35,6 @@ export interface StoryInterface {
     setting: string;
     timePeriod: string;
     characters: Character[];
-    guidelines?: string;
     themes: string;
-    moral: string;
-    writingStyle: string;
-    wordCount: number;
-    contentWarnings?: string[];
-    additionalInstructions?: string;
     user: UserInterface;
 }

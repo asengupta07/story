@@ -34,6 +34,46 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
+const StorySettingsSchema = new mongoose.Schema({
+    agentWriter: {
+        type: Boolean,
+        required: true
+    },
+    interval: {
+        type: Number,
+        required: true
+    },
+    storyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    },
+    moral: {
+        type: String,
+        required: false
+    },
+    writingStyle: {
+        type: String,
+        required: false
+    },
+    wordCount: {
+        type: Number,
+        required: false
+    },
+    contentWarnings: {
+        type: [String],
+        required: false
+    },
+    additionalInstructions: {
+        type: String,
+        required: false
+    },
+    guidelines: {
+        type: String,
+        required: false
+    },
+});
+
 const StorySchema = new mongoose.Schema({
     title: {
         type: String,
@@ -67,33 +107,9 @@ const StorySchema = new mongoose.Schema({
         type: [CharacterSchema],
         required: true
     },
-    guidelines: {
-        type: String,
-        required: false
-    },
     themes: {
         type: String,
         required: true
-    },
-    moral: {
-        type: String,
-        required: true
-    },
-    writingStyle: {
-        type: String,
-        required: true
-    },
-    wordCount: {
-        type: Number,
-        required: true
-    },
-    contentWarnings: {
-        type: [String],
-        required: false
-    },
-    additionalInstructions: {
-        type: String,
-        required: false
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -136,5 +152,5 @@ const ChapterSchema = new mongoose.Schema({
 const Story = mongoose.models.Story || mongoose.model('Story', StorySchema);
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 const Chapter = mongoose.models.Chapter || mongoose.model('Chapter', ChapterSchema);
-
-export { Story, User, Chapter };
+const StorySettings = mongoose.models.StorySettings || mongoose.model('StorySettings', StorySettingsSchema);
+export { Story, User, Chapter, StorySettings };

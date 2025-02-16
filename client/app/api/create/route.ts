@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongo";
-import { User, Story } from "@/app/models/schema";
+import { User, Story, StorySettings } from "@/app/models/schema";
 import { StoryInterface } from "@/types";
+
+interface createStoryInterface extends StoryInterface {
+    agentWriter: boolean;
+    interval: number;
+    moral?: string;
+    writingStyle?: string;
+    wordCount?: number;
+    contentWarnings?: string[];
+    additionalInstructions?: string;
+    guidelines?: string;
+}
 
 
 async function postHandler(request: NextRequest) {
     try {
         const body = await request.json();
-        const { title, genre, tone, targetAudience, premise, setting, timePeriod, characters, guidelines, themes, moral, writingStyle, wordCount, contentWarnings, additionalInstructions, user }: StoryInterface = body;
+        const { title, genre, tone, targetAudience, premise, setting, timePeriod, characters, guidelines, themes, moral, writingStyle, wordCount, contentWarnings, additionalInstructions, user, agentWriter, interval }: createStoryInterface = body;
 
 
         await connectToDatabase();
@@ -27,19 +38,27 @@ async function postHandler(request: NextRequest) {
             setting,
             timePeriod,
             characters,
-            guidelines,
             themes,
-            moral,
-            writingStyle,
-            wordCount,
-            contentWarnings,
-            additionalInstructions,
             user: userData._id
         });
 
         const storyId = story._id;
 
-        return NextResponse.json({ success: true, storyId }, { status: 200 });
+        const storySettings = await StorySettings.create({
+            agentWriter,
+            storyId,
+            interval,
+            moral,
+            writingStyle,
+            wordCount,
+            contentWarnings,
+            additionalInstructions,
+            guidelines
+        });
+
+        const storySettingsId = storySettings._id;
+
+        return NextResponse.json({ success: true, storyId, storySettingsId }, { status: 200 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ success: false, error: "Failed to create story" }, { status: 500 });
