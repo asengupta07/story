@@ -1,4 +1,4 @@
-export interface Character {
+export interface CharacterInterface {
     name: string;
     description: string;
     role: string;
@@ -34,7 +34,7 @@ export interface StoryInterface {
     premise: string;
     setting: string;
     timePeriod: string;
-    characters: Character[];
+    characters: CharacterInterface[];
     themes: string;
     user: UserInterface;
 }

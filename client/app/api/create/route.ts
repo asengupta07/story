@@ -18,6 +18,7 @@ interface createStoryInterface extends StoryInterface {
 async function postHandler(request: NextRequest) {
     try {
         const body = await request.json();
+        console.log(body)
         const { title, genre, tone, targetAudience, premise, setting, timePeriod, characters, guidelines, themes, moral, writingStyle, wordCount, contentWarnings, additionalInstructions, user, agentWriter, interval }: createStoryInterface = body;
 
 

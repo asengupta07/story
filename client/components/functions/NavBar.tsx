@@ -1,6 +1,6 @@
 "use client";
 import type React from "react";
-import { BookOpen } from "lucide-react";
+import { NotebookPen } from "lucide-react";
 import Link from "next/link";
 import LoginButton from "@/components/functions/ConnectButton";
 import { ModeToggle } from "@/components/theme/themeSwitcher";
@@ -11,8 +11,8 @@ export default function NavBar() {
         <header className="sticky top-0 z-50 w-full border-b-2 border-border bg-bg h-20 flex items-center">
             <div className="container flex h-16 items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <BookOpen className="h-6 w-6 text-primary" />
-                    <span className="text-xl font-bold">StoryForge</span>
+                    <NotebookPen className="h-6 w-6 text-primary" />
+                    <span className="text-xl font-bold">StoryBoard</span>
                 </div>
                 <nav className="hidden md:flex gap-6 items-center">
                     <Link
