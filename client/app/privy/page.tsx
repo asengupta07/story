@@ -38,9 +38,6 @@ export default function LoginButton() {
       >
         {!enableLogout ? "Connect Wallet" : "Disconnect"}
       </Button>
-      {/* <Button onClick={() => console.log("address", address)}>
-        Log address
-      </Button> */}
     </>
   );
 }

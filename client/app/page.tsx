@@ -45,9 +45,9 @@ export default function LandingPage() {
               </Badge>
               <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl">
                 <span className="bg-gradient-to-r from-purple-600 dark:to-white to-black bg-clip-text text-transparent">
-                  Where Stories 
+                  Where Stories
                 </span>
-                {" "}Come Alive 
+                {" "}Come Alive
                 <br />
                 Through{" "}
                 <span className="bg-gradient-to-r dark:from-white from-black dark:to-purple-600 to-purple-600 bg-clip-text text-transparent">

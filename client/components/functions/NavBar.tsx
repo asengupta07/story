@@ -6,7 +6,6 @@ import LoginButton from "@/components/functions/ConnectButton";
 import { ModeToggle } from "@/components/theme/themeSwitcher";
 
 export default function NavBar() {
-
     return (
         <header className="sticky top-0 z-50 w-full border-b-2 border-border bg-bg h-20 flex items-center">
             <div className="container flex h-16 items-center justify-between">

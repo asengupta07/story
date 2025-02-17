@@ -5,13 +5,15 @@ import { PrivyProvider } from '@privy-io/react-auth';
 import { WagmiProvider } from '@privy-io/wagmi';
 import { privyConfig } from './privyConfig';
 import { config } from './wagmi';
+import "dotenv/config";
 
 const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+    const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID as string;
     return (
         <PrivyProvider
-            appId="cm77s2jkq016710r7zjg0ve82"
+            appId={appId}
             config={privyConfig}
         >
             <QueryClientProvider client={queryClient}>

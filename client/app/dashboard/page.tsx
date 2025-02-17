@@ -74,7 +74,7 @@ export default function StoryDashboard() {
     <div className="min-h-screen">
       <NavBar />
       <div className="container mx-auto p-6">
-        <h1 className="text-4xl font-bold text-center mb-8 text-white">My Story Universe</h1>
+        <h1 className="text-4xl font-bold text-center mb-8 ">My Story Universe</h1>
         <Tabs defaultValue="current" className="w-full" onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="current">Current Stories</TabsTrigger>
