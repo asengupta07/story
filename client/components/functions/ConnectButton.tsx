@@ -26,7 +26,6 @@ export default function LoginButton() {
         address: address,
         chainId: polygonAmoy.id,
     })
-    console.log("balance", balance)
 
     useEffect(() => {
         if (address) {

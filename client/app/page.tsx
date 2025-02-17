@@ -1,6 +1,7 @@
 "use client";
 
 import type React from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,22 +9,36 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Code, Coins, PenTool, Sparkles, Users } from "lucide-react";
 import LoginButton from "@/components/functions/ConnectButton";
 import NavBar from "@/components/functions/NavBar";
+import { useAccount } from "wagmi";
 
 export default function LandingPage() {
+  const { address } = useAccount();
+
+  useEffect(() => {
+    if (address) {
+      console.log(address);
+    }
+  }, [address]);
+  
   return (
     <div className="flex min-h-screen flex-col items-center">
       <NavBar />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-24">
+        <section className="relative overflow-hidden py-28">
           <div className="container relative z-10">
             <div className="mx-auto max-w-3xl text-center">
-              <Badge variant="default" className="mb-4">
+              <Badge variant="default" className="mb-4 mt-12">
                 The Future of Storytelling
               </Badge>
               <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl">
-                Where Stories Come Alive Through{" "}
-                <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-purple-600 dark:to-white to-black bg-clip-text text-transparent">
+                  Where Stories 
+                </span>
+                {" "}Come Alive 
+                <br />
+                Through{" "}
+                <span className="bg-gradient-to-r from-white to-purple-600 bg-clip-text text-transparent">
                   Web3 Innovation
                 </span>
               </h1>
@@ -214,10 +229,10 @@ export default function LandingPage() {
         <div className="container flex flex-col items-center gap-4 text-center md:flex-row md:justify-between">
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">StoryForge</span>
+            <span className="text-xl font-bold">StoryBoard</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} StoryForge. All rights reserved.
+            © {new Date().getFullYear()} StoryBoard. All rights reserved.
           </p>
         </div>
       </footer>

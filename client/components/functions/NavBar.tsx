@@ -11,31 +11,31 @@ export default function NavBar() {
         <header className="sticky top-0 z-50 w-full border-b-2 border-border bg-bg h-20 flex items-center">
             <div className="container flex h-16 items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <NotebookPen className="h-6 w-6 text-primary" />
-                    <span className="text-xl font-bold">StoryBoard</span>
+                    <NotebookPen className="h-6 w-6 dark:text-purple-400 text-purple-600" />
+                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 dark:from-purple-400 to-black dark:to-white bg-clip-text text-transparent">StoryBoard</span>
                 </div>
                 <nav className="hidden md:flex gap-6 items-center">
                     <Link
                         href="#features"
-                        className="text-sm font-medium hover:text-primary"
+                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Features
                     </Link>
                     <Link
                         href="#creators"
-                        className="text-sm font-medium hover:text-primary"
+                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Creators
                     </Link>
                     <Link
                         href="#readers"
-                        className="text-sm font-medium hover:text-primary"
+                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Readers
                     </Link>
                     <Link
                         href="#tokens"
-                        className="text-sm font-medium hover:text-primary"
+                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         $STORY Tokens
                     </Link>
