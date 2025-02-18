@@ -35,7 +35,7 @@ export default function NavBar() {
                         Readers
                     </Link>
                     <Link
-                        href="#tokens"
+                        href="/token"
                         className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         $STORY Tokens
