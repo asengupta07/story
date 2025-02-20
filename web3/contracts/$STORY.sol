@@ -51,7 +51,7 @@ contract StoryToken is ERC20, Ownable {
     }
 
     function buyPresaleTokens() external payable onlyDuringPresale {
-        uint256 storyAmount = (msg.value * PRESALE_PRICE) / POL_UNIT;
+        uint256 storyAmount = (msg.value * PRESALE_PRICE);
         require(
             balanceOf(address(this)) >= storyAmount,
             "Not enough STORY tokens"
