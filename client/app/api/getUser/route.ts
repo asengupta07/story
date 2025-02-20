@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { User } from "@/app/models/schema";
-import connectToDatabase from "@/app/lib/mongo";
+import { User } from "@/models/schema";
+import connectToDatabase from "@/lib/mongo";
 
 async function getHandler(request: NextRequest) {
     await connectToDatabase();

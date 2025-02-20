@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectToDatabase from "@/app/lib/mongo";
-import { User } from "@/app/models/schema";
+import connectToDatabase from "@/lib/mongo";
+import { User } from "@/models/schema";
 import { UserInterface } from "@/types";
 
 
