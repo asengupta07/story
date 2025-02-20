@@ -17,7 +17,6 @@ import { polygonAmoy } from "viem/chains";
 import { formatEther } from "viem"
 import { UserInterface } from "@/types"
 
-
 export default function LoginButton() {
     const { ready, authenticated, login, logout, user } = usePrivy()
     const [userAddress, setUserAddress] = useState<string | null>(null)
