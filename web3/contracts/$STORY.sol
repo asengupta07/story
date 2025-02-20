@@ -9,7 +9,7 @@ contract StoryToken is ERC20, Ownable {
     using Math for uint256;
 
     // Tokenomics
-    uint256 public constant PRESALE_PRICE = 10; // 10 STORY per 1 POL (1 ETH)
+    uint256 public constant PRESALE_PRICE = 10000; // 10 STORY per 1 POL (1 ETH)
     uint256 public constant POL_UNIT = 1 ether;
     uint256 public constant BURN_RATE = 2; // 2% burn per transaction
     uint256 public presaleEndTime;
