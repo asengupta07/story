@@ -118,6 +118,38 @@ const StorySchema = new mongoose.Schema({
     }
 });
 
+const StoryStatusSchema = new mongoose.Schema({
+    story: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    numReaders: {
+        type: Number,
+        required: true
+    },
+    readers: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        required: true
+    }
+});
+
+const EndgameProtocolSchema = new mongoose.Schema({
+    story: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    },
+    numChapters: {
+        type: Number,
+        required: true
+    }
+})
 
 const ChapterSchema = new mongoose.Schema({
     story: {
@@ -153,4 +185,6 @@ const Story = mongoose.models.Story || mongoose.model('Story', StorySchema);
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 const Chapter = mongoose.models.Chapter || mongoose.model('Chapter', ChapterSchema);
 const StorySettings = mongoose.models.StorySettings || mongoose.model('StorySettings', StorySettingsSchema);
-export { Story, User, Chapter, StorySettings };
+const StoryStatus = mongoose.models.StoryStatus || mongoose.model('StoryStatus', StoryStatusSchema);    
+const EndgameProtocol = mongoose.models.EndgameProtocol || mongoose.model('EndgameProtocol', EndgameProtocolSchema);
+export { Story, User, Chapter, StorySettings, StoryStatus, EndgameProtocol };

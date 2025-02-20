@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectToDatabase from "@/app/lib/mongo";
-import { User, Story, StorySettings } from "@/app/models/schema";
+import connectToDatabase from "@/lib/mongo";
+import { User, Story, StorySettings, StoryStatus } from "@/models/schema";
 import { StoryInterface } from "@/types";
 
 interface createStoryInterface extends StoryInterface {
@@ -57,9 +57,17 @@ async function postHandler(request: NextRequest) {
             guidelines
         });
 
-        const storySettingsId = storySettings._id;
+        const storyStatus = await StoryStatus.create({
+            story: storyId,
+            status: "active",
+            numReaders: 0,
+            readers: []
+        });
 
-        return NextResponse.json({ success: true, storyId, storySettingsId }, { status: 200 });
+        const storySettingsId = storySettings._id;
+        const storyStatusId = storyStatus._id;
+
+        return NextResponse.json({ success: true, storyId, storySettingsId, storyStatusId }, { status: 200 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ success: false, error: "Failed to create story" }, { status: 500 });

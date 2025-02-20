@@ -46,7 +46,9 @@ export default function CreateStoryAgent() {
         timePeriod: "",
         characters: [] as Character[],
         themes: "",
-        user: address,
+        user: {
+            publicKey: address
+        }
     })
 
     const handleStorySettingsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

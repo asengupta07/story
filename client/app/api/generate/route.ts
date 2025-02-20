@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { User, Story, Chapter } from "@/app/models/schema";
+import { User, Story, Chapter } from "@/models/schema";
 import { generate } from "@/functions/generate";
 
 async function postHandler(request: NextRequest) {
