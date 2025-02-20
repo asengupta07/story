@@ -122,4 +122,8 @@ contract StoryToken is ERC20, Ownable {
             super._update(from, to, amount);
         }
     }
+
+    function getCurrentPrice() external view returns (uint256) {
+        return bondingCurvePrice(totalSupply());
+    }
 }
