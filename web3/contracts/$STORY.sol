@@ -56,7 +56,7 @@ contract StoryToken is ERC20, Ownable {
             balanceOf(address(this)) >= storyAmount,
             "Not enough STORY tokens"
         );
-        _transfer(address(this), msg.sender, storyAmount);
+        _update(address(this), msg.sender, storyAmount);
         emit TokensPurchased(msg.sender, storyAmount, msg.value);
     }
 
@@ -86,7 +86,7 @@ contract StoryToken is ERC20, Ownable {
             "Not enough STORY tokens"
         );
 
-        _transfer(address(this), msg.sender, tokenAmount);
+        _update(address(this), msg.sender, tokenAmount);
         emit TokensPurchased(msg.sender, tokenAmount, msg.value);
     }
 
@@ -102,20 +102,24 @@ contract StoryToken is ERC20, Ownable {
             "Not enough POL in contract"
         );
 
-        _transfer(msg.sender, address(this), tokenAmount);
+        _update(msg.sender, address(this), tokenAmount);
         payable(msg.sender).transfer(polAmount);
 
         emit TokensSold(msg.sender, tokenAmount, polAmount);
     }
 
-    function _transfer(
-        address sender,
-        address recipient,
+    function _update(
+        address from,
+        address to,
         uint256 amount
     ) internal override {
-        uint256 burnAmount = (amount * BURN_RATE) / 100;
-        uint256 sendAmount = amount - burnAmount;
-        super._transfer(sender, recipient, sendAmount);
-        _burn(sender, burnAmount);
+        if (from != address(0) && to != address(0)) {
+            uint256 burnAmount = (amount * BURN_RATE) / 100;
+            uint256 sendAmount = amount - burnAmount;
+            super._update(from, to, sendAmount);
+            _burn(from, burnAmount);
+        } else {
+            super._update(from, to, amount);
+        }
     }
 }
