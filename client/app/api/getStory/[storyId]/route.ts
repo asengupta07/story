@@ -35,7 +35,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
                 createdAt: story.createdAt
             }
         }
-        console.log("Last edited:", lastEdited)
         const response: Response = {
             title: story.title,
             genre: story.genre,
