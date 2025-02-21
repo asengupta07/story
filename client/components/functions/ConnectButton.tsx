@@ -70,7 +70,7 @@ export default function LoginButton() {
         }
     };
 
-    if (!ready || !authenticated || !userAddress || !user?.wallet?.address) {
+    if (!ready || !authenticated || !userAddress || !user?.wallet?.address || !walletAddress) {
         return <Button onClick={login}>Connect Wallet</Button>;
     }
 

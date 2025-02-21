@@ -18,7 +18,6 @@ import { useGasPrice, useWriteContract } from "wagmi";
 import { polygonAmoy } from "wagmi/chains";
 import { formatEther, parseEther } from "viem";
 import { abi, contractAddress } from "../abi";
-// import { tokenAddress, tokenAbi } from "../abi"
 
 export default function TokenSwap() {
   const { data: gasData, refetch } = useGasPrice({
