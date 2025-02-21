@@ -5,10 +5,13 @@ import { ChevronLeft, ChevronRight, Menu, X, BookOpen, ArrowLeft } from "lucide-
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Progress } from "@/components/ui/progress"
+import { useParams } from "next/navigation"
 
 export default function StoryReader() {
     const [currentChapter, setCurrentChapter] = useState(0)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const params = useParams()
+    const storyId = params.storyId as string
 
     // Hardcoded story data
     const story = {
@@ -22,7 +25,44 @@ In the neon-drenched streets of New Aurora, where memories flickered like dying 
 
 She adjusted her neural interface, a delicate piece of technology that allowed her to process and store the memories she collected. Today's assignment was simple: catalogue a centenarian's childhood memories before they faded completely. But something felt different about this one.
 
-The old man's memories had an unusual quality to them, a shimmer that she'd never encountered in her five years as an archivist. They seemed to pulse with an inner light that defied the standard classification protocols...`,
+The old man's memories had an unusual quality to them, a shimmer that she'd never encountered in her five years as an archivist. They seemed to pulse with an inner light that defied the standard classification protocols...
+
+"Some memories," he'd told her, "are better left buried."
+
+But as she studied the iridescent pattern of this particular memory, she couldn't help but feel that it was trying to tell her something. The neural readings were off the charts, suggesting a depth of consciousness that exceeded normal human parameters...
+
+In the neon-drenched streets of New Aurora, where memories flickered like dying stars, Aria Chen stood before the towering Archive of Consciousness. The building's crystalline surfaces reflected the perpetual twilight that had become the city's signature since the Great Forgetting.
+
+She adjusted her neural interface, a delicate piece of technology that allowed her to process and store the memories she collected. Today's assignment was simple: catalogue a centenarian's childhood memories before they faded completely. But something felt different about this one.
+
+The old man's memories had an unusual quality to them, a shimmer that she'd never encountered in her five years as an archivist. They seemed to pulse with an inner light that defied the standard classification protocols...
+
+"Some memories," he'd told her, "are better left buried."
+
+But as she studied the iridescent pattern of this particular memory, she couldn't help but feel that it was trying to tell her something. The neural readings were off the charts, suggesting a depth of consciousness that exceeded normal human parameters...
+
+Aria hesitated, her fingers hovering over the interface. The memory's light grew brighter, almost blinding. She felt a strange pull, as if the memory was drawing her in, urging her to uncover its secrets. With a deep breath, she initiated the deep dive protocol, a risky maneuver that allowed her to experience the memory firsthand.
+
+Instantly, she was transported to a different time and place. She found herself in a lush, verdant forest, the air thick with the scent of pine and earth. The sky above was a brilliant azure, dotted with fluffy white clouds. Birds sang melodiously in the trees, and a gentle breeze rustled the leaves.
+
+In the distance, she saw a small village, its inhabitants going about their daily lives. Children laughed and played, while adults tended to their chores. It was a scene of peace and tranquility, a stark contrast to the dystopian reality of New Aurora.
+
+As she walked through the village, she noticed a young boy sitting alone by a stream, his expression one of deep contemplation. She approached him cautiously, unsure of what to expect. The boy looked up, his eyes meeting hers with an intensity that took her breath away.
+
+"Who are you?" he asked, his voice filled with curiosity.
+
+"I'm Aria," she replied. "I'm here to understand your memories."
+
+The boy nodded, as if he understood. "This place," he said, gesturing to the village, "is a part of me. It's where I come from, where my story began."
+
+Aria felt a pang of sadness. "But it's gone now, isn't it? The Great Forgetting took it all away."
+
+The boy's eyes darkened. "Yes, but some things can never be truly forgotten. They live on in our hearts, in our memories."
+
+As the scene began to fade, Aria felt a surge of determination. She knew she had to uncover the truth behind the Great Forgetting, to restore the lost memories and bring hope to the people of New Aurora.
+
+With a final glance at the boy, she returned to the present, her mind racing with possibilities. The memory had given her a glimpse of a world that once was, a world that could be again. And she was determined to make it a reality.
+`
             },
             {
                 title: "Echoes of the Past",

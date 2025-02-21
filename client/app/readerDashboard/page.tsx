@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, Users, Sparkles } from "lucide-react"
+import Link from "next/link"
 import NavBar from "@/components/functions/NavBar"
 
 interface ReaderDashboardInterface {
@@ -57,8 +58,9 @@ export default function Dashboard() {
                             <ScrollArea className="w-full">
                                 <div className="flex w-max space-x-4 p-4">
                                     {trendingStories.map((story) => (
-                                        <Card key={story.id} className="w-[250px] shrink-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                            <CardHeader>
+                                        <Link href={`/story/${story.id}`} key={story.id}>
+                                            <Card className="w-[250px] shrink-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                                <CardHeader>
                                                 <CardTitle className="overflow-x-hidden text-ellipsis whitespace-nowrap min-h-8">{story.title}
                                                 <p className="text-sm mt-1 text-muted-foreground font-base">by {story.author}</p>
                                                 </CardTitle>
@@ -76,6 +78,7 @@ export default function Dashboard() {
                                                 </div>
                                             </CardFooter>
                                         </Card>
+                                    </Link>
                                     ))}
                                 </div>
                                 <ScrollBar orientation="horizontal" />
@@ -95,9 +98,10 @@ export default function Dashboard() {
                     {followedStories.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {followedStories.map((story, index) => (
-                                <Card key={index} className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                                    <CardHeader>
-                                        <CardTitle>{story.title}</CardTitle>
+                                <Link href={`/story/${story.id}`} key={story.id}>
+                                    <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                        <CardHeader>
+                                            <CardTitle>{story.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <p className="text-sm text-muted-foreground mb-2">by {story.author}</p>
@@ -113,6 +117,7 @@ export default function Dashboard() {
                                         </div>
                                     </CardFooter>
                                 </Card>
+                            </Link>
                             ))}
                         </div>
                     ) : (
