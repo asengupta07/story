@@ -69,7 +69,7 @@ Please return the generated chapter in the following JSON format:
 Deliver the first chapter as a cohesive, immersive, and polished draft that aligns with the provided details and instructions.`;
         const chap = await generate(prompt);
 
-        const chapter=JSON.parse(chap).chapterContent
+        const chapter=JSON.parse(chap)
         
         const recapPrompt = `
         You are a professional recap writer. Your task is to generate a clear, engaging, and concise recap for a given chapter of a story. 
@@ -92,7 +92,7 @@ Deliver the first chapter as a cohesive, immersive, and polished draft that alig
         
         Here’s the chapter content:
         
-        Chapter: ${chapter}
+        Chapter: ${chapter.chapterContent}
         `
         const rec = await generate(recapPrompt);
 
@@ -102,8 +102,8 @@ Deliver the first chapter as a cohesive, immersive, and polished draft that alig
         const chapterData = {
             story: storyId,
             number: 1,
-            title: title,
-            content: chapter,
+            title: chapter.chapterName,
+            content: chapter.chapterContent,
             recap: recap,
             user: userData._id
         }
@@ -116,41 +116,55 @@ Deliver the first chapter as a cohesive, immersive, and polished draft that alig
     const chapter = chapters[0];
 
     const prompt = `
-    You are a professional story writer.
-    You are given a story with the following details:
-    
-    Title: ${title}
-    Genre: ${genre}
-    Tone: ${tone}
-    Target Audience: ${targetAudience}
-    Premise: ${premise}
-    Setting: ${setting}
-    Time Period: ${timePeriod}
-    Characters: ${characters}
-    Guidelines: ${guidelines}
-    Themes: ${themes}
-    Moral: ${moral}
-    Writing Style: ${writingStyle}
-    Word Count: ${wordCount}
-    Content Warnings: ${contentWarnings}
-    Additional Instructions: ${additionalInstructions}
+    You are a professional story writer with expertise in crafting engaging and immersive narratives. Your task is to generate the next chapter for an ongoing story, based on the provided details and previous content. Please follow the instructions carefully and output the result in JSON format.
 
-    ${chapter}
+    Story Details:
+    1. Title: ${title}
+    2. Genre: ${genre}
+    3. Tone: ${tone}
+    4. Target Audience: ${targetAudience}
+    5. Premise: ${premise}
+    6. Setting: ${setting}
+    7. Time Period: ${timePeriod}
+    8. Characters: ${characters}
+    9. Themes: ${themes}
+    10. Moral: ${moral}
+    11. Writing Style: ${writingStyle}
+    12. Word Count: ${wordCount}
+    13. Content Warnings: ${contentWarnings}
+    14. Guidelines: ${guidelines}
+    15. Additional Instructions: ${additionalInstructions}
 
-    Last Chapter: ${chapter.content}
+    Previous Content:
+    16. Last Chapter: ${chapter.content}
+    17. Recap of all previous chapters: ${chapter.recap}
 
-    Recap of all previous chapters: ${chapter.recap}
+    Instructions for generating the next chapter:
+    1. Create a compelling chapter that aligns with the story details and adheres to the tone, style, and guidelines provided.
+    2. Build on the previous chapter's events and ensure continuity with the recap of earlier chapters.
+    3. Develop character arcs, plot progression, and thematic elements as appropriate for the narrative.
+    4. Respect the content warnings and any sensitive material specified.
+    5. Aim for the specified word count, balancing dialogue, description, and action for a well-rounded chapter.
 
-    You are tasked with generating the next chapter for the story.
-    `
+    Output Format (in JSON):
+    {
+      "chapterName": <generated chapter name>,
+      "chapterContent": <generated chapter content>
+    }
 
-    const newChapterContent = await generate(prompt);
+    Please generate the next chapter, ensuring it fits seamlessly within the existing story framework.
+`;
+
+
+    const newChap = await generate(prompt);
+
+    const newChapterContent = JSON.parse(newChap)
 
     const newChapterData = {
         story: storyId,
         number: chapter.number + 1,
-        title: title,
-        content: newChapterContent,
+        title: newChapterContent.chapterName,
+        content: newChapterContent.chapterContent,
         user: userData._id
     }
 
