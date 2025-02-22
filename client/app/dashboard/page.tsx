@@ -14,61 +14,50 @@ import NavBar from "@/components/functions/NavBar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-// Mock data for stories
-const currentStories = [
-  {
-    id: 1,
-    title: "The Quantum Paradox",
-    status: "In Progress",
-    hasAgent: true,
-    words: 15000,
-    lastEdited: "2 hours ago",
-  },
-  { id: 2, title: "Echoes of Eternity", status: "In Progress", hasAgent: false, words: 80000, lastEdited: "1 day ago" },
-  { id: 3, title: "Neon Nights", status: "In Progress", hasAgent: true, words: 5000, lastEdited: "3 days ago" },
-  {
-    id: 4,
-    title: "Whispers in the Wind",
-    status: "In Progress",
-    hasAgent: false,
-    words: 30000,
-    lastEdited: "1 week ago",
-  },
-]
 
-const pastStories = [
-  {
-    id: 5,
-    title: "The Forgotten Realm",
-    status: "Completed",
-    hasAgent: true,
-    words: 120000,
-    lastEdited: "1 month ago",
-  },
-  { id: 6, title: "Starborn Legacy", status: "Completed", hasAgent: false, words: 95000, lastEdited: "3 months ago" },
-  {
-    id: 7,
-    title: "Shadows of Yesterday",
-    status: "Completed",
-    hasAgent: true,
-    words: 70000,
-    lastEdited: "6 months ago",
-  },
-]
+interface Story {
+  id: string;
+  title: string;
+  status: string;
+  hasAgent: boolean;
+  readers: number;
+  lastEdited: string;
+  premise: string;
+}
+
 
 export default function StoryDashboard() {
   const [activeTab, setActiveTab] = useState("current")
   const { user } = usePrivy();
   const router = useRouter();
-
+  const [currentStories, setCurrentStories] = useState<Story[]>([]);
+  const [pastStories, setPastStories] = useState<Story[]>([]);
   useEffect(() => {
     if (!user) {
       router.push("/");
     }
     if (user) {
       console.log(user.wallet?.address);
+      fetchCurrentStories();
+      fetchPastStories();
     }
   }, [user]);
+
+  const fetchCurrentStories = async () => {
+    const response = await fetch(`/api/stories/current?address=${user?.wallet?.address}`);
+    const data = await response.json();
+    console.log("Current Stories");
+    console.log(data);
+    setCurrentStories(data);
+  }
+
+  const fetchPastStories = async () => {
+    const response = await fetch(`/api/stories/past?address=${user?.wallet?.address}`);
+    const data = await response.json();
+    console.log("Past Stories");
+    console.log(data);
+    setPastStories(data);
+  }
 
   return (
     <div className="min-h-screen">
@@ -105,6 +94,7 @@ export default function StoryDashboard() {
 }
 
 function StoryCard({ story, isCurrentStory }: { story: any, isCurrentStory: boolean }) {
+  const router = useRouter();
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       {story.hasAgent ? (
@@ -118,7 +108,7 @@ function StoryCard({ story, isCurrentStory }: { story: any, isCurrentStory: bool
                     <Bot className="h-5 w-5 text-yellow-300" />
                   </CardTitle>
                   <CardDescription className="text-purple-100">
-                    {story.words.toLocaleString()} words • Last edited {story.lastEdited}
+                    {story.readers} followers • Last edited {story.lastEdited}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4">
@@ -127,12 +117,12 @@ function StoryCard({ story, isCurrentStory }: { story: any, isCurrentStory: bool
                   </Badge>
                   <p className="text-sm dark:text-gray-800 text-gray-600">
                     {isCurrentStory
-                      ? "Continue your journey and bring this story to life!"
+                      ? story.premise
                       : "Reflect on your completed masterpiece and gather inspiration."}
                   </p>
                 </CardContent>
                 <CardFooter className="">
-                  <Button variant="reverse" className="w-full justify-between group">
+                  <Button variant="reverse" className="w-full justify-between group" onClick={() => router.push(`/myStory/${story.id}`)}>
                     {isCurrentStory ? (
                       <>
                         Continue Writing
@@ -158,7 +148,7 @@ function StoryCard({ story, isCurrentStory }: { story: any, isCurrentStory: bool
               {story.title}
             </CardTitle>
             <CardDescription className="text-purple-100">
-              {story.words.toLocaleString()} words • Last edited {story.lastEdited}
+              {story.readers} followers • Last edited {story.lastEdited}
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-4">
@@ -172,7 +162,7 @@ function StoryCard({ story, isCurrentStory }: { story: any, isCurrentStory: bool
             </p>
           </CardContent>
           <CardFooter className="">
-            <Button variant="reverse" className="w-full justify-between group">
+            <Button variant="reverse" className="w-full justify-between group" onClick={() => router.push(`/myStory/${story.id}`)}>
               {isCurrentStory ? (
                 <>
                   Continue Writing

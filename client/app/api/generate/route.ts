@@ -4,7 +4,7 @@ import { generate } from "@/functions/generate";
 
 async function postHandler(request: NextRequest) {
     const body = await request.json();
-    const { storyId } = body;
+    const { storyId, direction } = body;
 
     const story = await Story.findById(storyId);
 
@@ -22,7 +22,10 @@ async function postHandler(request: NextRequest) {
 
     const chapters = await Chapter.find({ story: storyId }).sort({ number: -1 }).limit(1);
 
-    if (!chapters) {
+    console.log("Chapters: ", chapters)
+
+    if (chapters.length === 0) {
+        console.log("No chapters found")
         const prompt = `
         You are a professional story writer.
         You are given a story with the following details:
@@ -93,7 +96,7 @@ async function postHandler(request: NextRequest) {
     Content Warnings: ${contentWarnings}
     Additional Instructions: ${additionalInstructions}
 
-    The story is currently at chapter ${chapter.number}.
+    ${chapter}
 
     Last Chapter: ${chapter.content}
 

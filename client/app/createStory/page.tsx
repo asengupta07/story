@@ -11,11 +11,11 @@ import { Label } from "@/components/ui/label"
 import NavBar from "@/components/functions/NavBar"
 import { CharacterForm } from "@/components/CharacterForm"
 import type { Character } from "@/components/CharacterForm"
-import { useAccount } from "wagmi"
+import { usePrivy } from "@privy-io/react-auth"
 
 
 export default function CreateStoryAgent() {
-    const { address } = useAccount()
+    const { user } = usePrivy()
     const [storySettings, setStorySettings] = useState({
         agentWriter: false,
         interval: 0,
@@ -47,7 +47,7 @@ export default function CreateStoryAgent() {
         characters: [] as Character[],
         themes: "",
         user: {
-            publicKey: address
+            publicKey: ""
         }
     })
 
@@ -70,6 +70,9 @@ export default function CreateStoryAgent() {
             contentWarnings:
                 storySettings.contentWarnings && typeof storySettings.contentWarnings === 'string' ? storySettings.contentWarnings.split(',').map((cw: string) => cw.trim()) : storySettings.contentWarnings,
             ...story,
+            user: {
+                publicKey: user?.wallet?.address
+            }
         }
         console.log(JSON.stringify(payload, null, 2))
         const response = await fetch("/api/create", {

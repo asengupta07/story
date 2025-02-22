@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/theme/themeSwitcher";
 
 export default function NavBar() {
     return (
-        <header className="sticky top-0 z-50 w-full border-b-2 border-border bg-bg h-20 flex items-center">
+        <header className="sticky top-0 z-50 w-full border-b-8 dark:border-b-4 border-border dark:bg-bg bg-violet-200 h-20 flex items-center">
             <div className="container flex h-16 items-center justify-between">
                 <Link href="/">
                     <div className="flex items-center gap-2">
@@ -18,25 +18,25 @@ export default function NavBar() {
                 <nav className="hidden md:flex gap-6 items-center">
                     <Link
                         href="#features"
-                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
+                        className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Features
                     </Link>
                     <Link
                         href="#creators"
-                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
+                        className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Creators
                     </Link>
                     <Link
                         href="#readers"
-                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
+                        className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         Readers
                     </Link>
                     <Link
                         href="/token"
-                        className="text-lg font-medium hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
+                        className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
                     >
                         $STORY Tokens
                     </Link>

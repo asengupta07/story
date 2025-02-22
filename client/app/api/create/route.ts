@@ -27,7 +27,7 @@ async function postHandler(request: NextRequest) {
         const userData = await User.findOne({ publicKey: user.publicKey });
 
         if (!userData) {
-            return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
+            return NextResponse.json({ success: false, error: "User not found" }, { status: 400 });
         }
 
         const story = await Story.create({

@@ -12,7 +12,9 @@ async function generate(prompt: string) {
         model,
         messages: [{ role: "user", content: prompt }],
     });
-    return response.choices[0].message.content;
+    const contentWithThoughts = response.choices[0].message.content;
+    const contentWithoutThoughts = contentWithThoughts?.replace(/<think>.*?<\/think>/g, "");
+    return contentWithoutThoughts;
 }
 
 export {

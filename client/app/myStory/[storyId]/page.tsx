@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Bell, BookOpen, Edit3, Trash2, UserPlus } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { Button } from "@/components/ui/button"
@@ -10,6 +10,120 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import NavBar from "@/components/functions/NavBar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useParams } from "next/navigation"
+
+
+interface Story {
+    title: string;
+    description: string;
+    details: {
+        genre: string;
+        tone: string;
+        targetAudience: string;
+        setting: string;
+        timePeriod: string;
+        themes: string;
+        totalFollowers: number;
+    };
+    characters: {
+        name: string;
+        role: string;
+        description: string;
+        backstory: string;
+    }[];
+    writingSettings: {
+        chapterInterval: string;
+        writingStyle: string;
+        targetWordCount: string;
+        contentWarnings: string;
+    };
+    chapters: {
+        number: number;
+        title: string;
+        recap: string;
+        author: string;
+    }[];
+    readers: {
+        total: number;
+        topReaders: string[];
+    };
+}
+
+interface Analytics {
+    totalChapters: number;
+    averageWordCount: number;
+    readerEngagementRate: number;
+}
+
+const storyData: Story = {
+    title: "The Chronicles of Aethoria",
+    description: "An epic fantasy tale of magic and adventure",
+    details: {
+        genre: "Fantasy",
+        tone: "Epic, Adventurous",
+        targetAudience: "Young Adult",
+        setting: "Medieval-inspired magical realm",
+        timePeriod: "Fictional middle ages",
+        themes: "Coming of age, Good vs Evil, Power of friendship",
+        totalFollowers: 1234,
+    },
+    characters: [
+        {
+            name: "Lyra Starborn",
+            role: "Protagonist",
+            description: "A young mage discovering her powers",
+            backstory: "Orphaned at a young age, raised by village elders",
+        },
+        {
+            name: "Kael Shadowbane",
+            role: "Deuteragonist",
+            description: "A skilled warrior with a mysterious past",
+            backstory: "Former royal guard, exiled for a crime he didn't commit",
+        },
+        {
+            name: "Morwen the Wise",
+            role: "Mentor",
+            description: "An ancient wizard guiding the heroes",
+            backstory: "Last of the original council of mages",
+        },
+    ],
+    writingSettings: {
+        chapterInterval: "Weekly",
+        writingStyle: "Descriptive, Character-focused",
+        targetWordCount: "80,000 - 100,000 words",
+        contentWarnings: "Mild violence, Some intense scenes",
+    },
+    chapters: [
+        {
+            number: 1,
+            title: "The Awakening",
+            recap: "Lyra discovers her magical abilities",
+            author: "You",
+        },
+        {
+            number: 2,
+            title: "The Journey Begins",
+            recap: "Lyra leaves her village with Kael",
+            author: "You",
+        },
+        {
+            number: 3,
+            title: "Shadows in the Forest",
+            recap: "The duo face their first magical challenge",
+            author: "You",
+        },
+    ],
+    readers: {
+        total: 5678,
+        topReaders: ["Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Henry"],
+    },
+}
+
+const analyticsData: Analytics = {
+    totalChapters: 5,
+    averageWordCount: 2860,
+    readerEngagementRate: 78,
+}
 
 // Add this custom tooltip component before the main component
 const CustomTooltip = ({ active, payload }: any) => {
@@ -24,9 +138,40 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 export default function MyStoryDashboard() {
+    const [storyData, setStoryData] = useState<Story | null>(null)
+    const [direction, setDirection] = useState("")
     const [storyStatus, setStoryStatus] = useState("Ongoing")
     const [aiEnabled, setAiEnabled] = useState(false)
+    const { storyId } = useParams();
+    useEffect(() => {
+        fetch(`/api/stories/details?storyId=${storyId}`)
+            .then(res => res.json())
+            .then(data => {
+                setStoryData(data)
+                console.log(data)
+                setAiEnabled(data.aiEnabled)
+                setStoryStatus(data.status)
+            })
+    }, [storyId])
 
+    const handleGenerateNextChapter = async () => {
+        console.log("Generating next chapter")
+        const response = await fetch(`/api/generate`, {
+            method: "POST",
+            body: JSON.stringify({
+                storyId: storyId,
+                direction: direction
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+        setStoryData((prev) => {
+            if (prev) {
+                return { ...prev, chapters: [...prev.chapters, data.chapter] }
+            }
+            return prev
+        })
+    }
     // Mock data for charts
     const engagementData = [
         { name: "Mon", views: 400, comments: 24 },
@@ -54,7 +199,7 @@ export default function MyStoryDashboard() {
     ]
 
     return (
-        <div className="bg-bg">
+        <div className="bg-violet-200 dark:bg-bg">
             <NavBar />
             <div className="container mx-auto p-6 space-y-6">
                 <h1 className="text-4xl font-bold mb-8">My Story Dashboard</h1>
@@ -62,34 +207,34 @@ export default function MyStoryDashboard() {
                 {/* Story Overview Section */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>The Chronicles of Aethoria</CardTitle>
-                        <CardDescription>An epic fantasy tale of magic and adventure</CardDescription>
+                        <CardTitle>{storyData?.title}</CardTitle>
+                        <CardDescription>{storyData?.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             <div>
                                 <Label>Genre</Label>
-                                <p>Fantasy</p>
+                                <p>{storyData?.details.genre}</p>
                             </div>
                             <div>
                                 <Label>Tone</Label>
-                                <p>Epic, Adventurous</p>
+                                <p>{storyData?.details.tone}</p>
                             </div>
                             <div>
                                 <Label>Target Audience</Label>
-                                <p>Young Adult</p>
+                                <p>{storyData?.details.targetAudience}</p>
                             </div>
                             <div>
                                 <Label>Setting</Label>
-                                <p>Medieval-inspired magical realm</p>
+                                <p>{storyData?.details.setting}</p>
                             </div>
                             <div>
                                 <Label>Time Period</Label>
-                                <p>Fictional middle ages</p>
+                                <p>{storyData?.details.timePeriod}</p>
                             </div>
                             <div>
                                 <Label>Themes</Label>
-                                <p>Coming of age, Good vs Evil, Power of friendship</p>
+                                <p>{storyData?.details.themes}</p>
                             </div>
                             <div>
                                 <Label>Status</Label>
@@ -98,15 +243,14 @@ export default function MyStoryDashboard() {
                                         <SelectValue>{storyStatus}</SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Ongoing">Ongoing</SelectItem>
-                                        <SelectItem value="Completed">Completed</SelectItem>
-                                        <SelectItem value="Paused">Paused</SelectItem>
+                                        <SelectItem value="active">Active</SelectItem>
+                                        <SelectItem value="completed">Completed</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div>
                                 <Label>Total Followers</Label>
-                                <p className="text-2xl font-bold">1,234</p>
+                                <p className="text-2xl font-bold">{storyData?.details.totalFollowers}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -119,26 +263,7 @@ export default function MyStoryDashboard() {
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {[
-                                {
-                                    name: "Lyra Starborn",
-                                    role: "Protagonist",
-                                    description: "A young mage discovering her powers",
-                                    backstory: "Orphaned at a young age, raised by village elders",
-                                },
-                                {
-                                    name: "Kael Shadowbane",
-                                    role: "Deuteragonist",
-                                    description: "A skilled warrior with a mysterious past",
-                                    backstory: "Former royal guard, exiled for a crime he didn't commit",
-                                },
-                                {
-                                    name: "Morwen the Wise",
-                                    role: "Mentor",
-                                    description: "An ancient wizard guiding the heroes",
-                                    backstory: "Last of the original council of mages",
-                                },
-                            ].map((character) => (
+                            {storyData?.characters.map((character) => (
                                 <Card key={character.name} className="bg-violet-600">
                                     <CardHeader>
                                         <CardTitle>{character.name}</CardTitle>
@@ -184,19 +309,19 @@ export default function MyStoryDashboard() {
                             </div>
                             <div>
                                 <Label>Chapter Interval</Label>
-                                <p>Weekly</p>
+                                <p>{storyData?.writingSettings.chapterInterval}</p>
                             </div>
                             <div>
                                 <Label>Writing Style</Label>
-                                <p>Descriptive, Character-focused</p>
+                                <p>{storyData?.writingSettings.writingStyle}</p>
                             </div>
                             <div>
                                 <Label>Target Word Count</Label>
-                                <p>80,000 - 100,000 words</p>
+                                <p>{storyData?.writingSettings.targetWordCount}</p>
                             </div>
                             <div>
                                 <Label>Content Warnings</Label>
-                                <p>Mild violence, Some intense scenes</p>
+                                <p>{storyData?.writingSettings.contentWarnings}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -209,16 +334,7 @@ export default function MyStoryDashboard() {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            {[
-                                { number: 1, title: "The Awakening", recap: "Lyra discovers her magical abilities", author: "You" },
-                                { number: 2, title: "The Journey Begins", recap: "Lyra leaves her village with Kael", author: "You" },
-                                {
-                                    number: 3,
-                                    title: "Shadows in the Forest",
-                                    recap: "The duo face their first magical challenge",
-                                    author: "You",
-                                },
-                            ].map((chapter) => (
+                            {storyData?.chapters.map((chapter) => (
                                 <div key={chapter.number} className="flex items-center justify-between">
                                     <div>
                                         <h3 className="font-bold">
@@ -237,10 +353,10 @@ export default function MyStoryDashboard() {
                         {aiEnabled ? (
                             <div className="flex-1 mr-4">
                                 <Label htmlFor="ai-direction">AI Direction</Label>
-                                <Textarea id="ai-direction" placeholder="Enter directions for the AI..." />
+                                <Textarea id="ai-direction" placeholder="Enter directions for the AI..." value={direction} onChange={(e) => setDirection(e.target.value)} />
                             </div>
                         ) : null}
-                        <Button>{aiEnabled ? "Generate Next Chapter" : "Write Next Chapter"}</Button>
+                        <Button onClick={handleGenerateNextChapter}>{aiEnabled ? "Generate Next Chapter" : "Write Next Chapter"}</Button>
                     </CardFooter>
                 </Card>
 
@@ -251,13 +367,13 @@ export default function MyStoryDashboard() {
                     </CardHeader>
                     <CardContent>
                         <div className="flex justify-between items-center mb-4">
-                            <p className="text-2xl font-bold">Total Readers: 5,678</p>
+                            <p className="text-2xl font-bold">Total Readers: {storyData?.readers.total}</p>
                             <Button variant="default">
                                 <Bell className="mr-2 h-4 w-4" /> Notify Readers
                             </Button>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            {["Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Henry"].map((reader) => (
+                            {storyData?.readers.topReaders.map((reader: string) => (
                                 <div key={reader} className="flex items-center">
                                     <Avatar className="mr-2">
                                         <AvatarFallback>{reader[0]}</AvatarFallback>
@@ -335,15 +451,15 @@ export default function MyStoryDashboard() {
                         <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
                             <div>
                                 <Label>Total Chapters</Label>
-                                <p className="text-2xl font-bold">5</p>
+                                <p className="text-2xl font-bold">{analyticsData.totalChapters}</p>
                             </div>
                             <div>
                                 <Label>Average Word Count</Label>
-                                <p className="text-2xl font-bold">2,860</p>
+                                <p className="text-2xl font-bold">{analyticsData.averageWordCount}</p>
                             </div>
                             <div>
                                 <Label>Reader Engagement Rate</Label>
-                                <p className="text-2xl font-bold">78%</p>
+                                <p className="text-2xl font-bold">{analyticsData.readerEngagementRate}%</p>
                             </div>
                         </div>
                     </CardContent>
