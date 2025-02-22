@@ -60,7 +60,7 @@ export default function StoryDashboard() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-violet-100 dark:bg-bw">
       <NavBar />
       <div className="container mx-auto p-6">
         <h1 className="text-4xl font-bold text-center mb-8 ">My Story Universe</h1>

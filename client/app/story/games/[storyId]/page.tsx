@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,20 +13,54 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Book, Trophy, PieChart, Zap, ArrowLeft } from "lucide-react"
+import { useParams } from "next/navigation"
 
-type PollOption = 'option1' | 'option2' | 'option3';
+type PollOption = 'option1' | 'option2' | 'option3' | 'option4';
 type PollVotes = Record<PollOption, number>;
 
-export default function StoryMiniGame() {
-  const [activeTab, setActiveTab] = useState("quiz")
-  const [quizScore, setQuizScore] = useState(0)
-  const [quizCompleted, setQuizCompleted] = useState(false)
-  const [pollVotes, setPollVotes] = useState<PollVotes>({ option1: 0, option2: 0, option3: 0 })
-  const [prediction, setPrediction] = useState("")
-  const [userStats, setUserStats] = useState({ quizzes: 0, polls: 0, predictions: 0 })
-  const [showAchievement, setShowAchievement] = useState(false)
+interface Quiz {
+  title: string
+  description: string
+  questions: {
+    question: string
+    options: string[]
+    correctAnswer: string
+  }[]
+}
 
-  const quizQuestions = [
+interface Poll {
+  title: string
+  description: string
+  question: string
+  options: {
+    id: string
+    label: string
+  }[]
+}
+
+interface Predictions {
+  title: string
+  description: string
+  inputPlaceholder: string
+}
+
+
+
+// Content Configuration
+const GAME_CONFIG = {
+  title: "Interactive Mini-Games",
+  description: "Dive deeper into the magical world of our story!",
+  tabs: [
+    { id: "quiz", label: "Quiz", icon: Book },
+    { id: "polls", label: "Polls", icon: PieChart },
+    { id: "predictions", label: "Predictions", icon: Zap }
+  ]
+}
+
+const QUIZ_CONFIG = {
+  title: "Story Quiz Challenge",
+  description: "Test your knowledge of the latest chapter!",
+  questions: [
     {
       question: "Who is the main character's best friend?",
       options: ["Alex", "Sam", "Jordan", "Taylor"],
@@ -43,23 +77,73 @@ export default function StoryMiniGame() {
       correctAnswer: "Mountain Kingdom",
     },
   ]
+}
+
+const POLL_CONFIG = {
+  title: "Reader's Choice Poll",
+  description: "Share your opinion on the story's direction!",
+  question: "Who is your favorite character?",
+  options: [
+    { id: "option1", label: "Character 1" },
+    { id: "option2", label: "Character 2" },
+    { id: "option3", label: "Character 3" }
+  ]
+}
+
+const PREDICTIONS_CONFIG = {
+  title: "Crystal Ball Predictions",
+  description: "What do you think will happen next?",
+  inputPlaceholder: "Enter your prediction for the next chapter..."
+}
+
+const ACHIEVEMENT_CONFIG = {
+  title: "Achievement Unlocked: Quiz Master!",
+  displayDuration: 3000
+}
+
+export default function StoryMiniGame() {
+  const { storyId } = useParams()
+  const [activeTab, setActiveTab] = useState("quiz")
+  const [quiz, setQuiz] = useState<Quiz>(QUIZ_CONFIG)
+  const [poll, setPoll] = useState<Poll>(POLL_CONFIG)
+  const [predictions, setPredictions] = useState<Predictions>(PREDICTIONS_CONFIG)
+  const [quizScore, setQuizScore] = useState(0)
+  const [quizCompleted, setQuizCompleted] = useState(false)
+  const [pollVotes, setPollVotes] = useState<PollVotes>({ option1: 0, option2: 0, option3: 0, option4: 0 })
+  const [prediction, setPrediction] = useState("")
+  const [userStats, setUserStats] = useState({ quizzes: 0, polls: 0, predictions: 0 })
+  const [showAchievement, setShowAchievement] = useState(false)
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState("")
 
+
+  const fetchGames = async () => {
+    const response = await fetch(`/api/createGames?storyId=${storyId}`)
+    const data = await response.json()
+    console.log("Data: ", data)
+    setQuiz(data.quiz)
+    setPoll(data.poll)
+    setPredictions(data.predictions)
+  }
+
+  useEffect(() => {
+    fetchGames()
+  }, [storyId])
+
   const handleAnswerSubmit = () => {
-    if (selectedAnswer === quizQuestions[currentQuestionIndex].correctAnswer) {
+    if (selectedAnswer === QUIZ_CONFIG.questions[currentQuestionIndex].correctAnswer) {
       setQuizScore(quizScore + 1)
     }
-    if (currentQuestionIndex < quizQuestions.length - 1) {
+    if (currentQuestionIndex < QUIZ_CONFIG.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setSelectedAnswer("")
     } else {
       setQuizCompleted(true)
       setUserStats((prev) => ({ ...prev, quizzes: prev.quizzes + 1 }))
-      if (quizScore === quizQuestions.length) {
+      if (quizScore === QUIZ_CONFIG.questions.length) {
         setShowAchievement(true)
-        setTimeout(() => setShowAchievement(false), 3000)
+        setTimeout(() => setShowAchievement(false), ACHIEVEMENT_CONFIG.displayDuration)
       }
     }
   }
@@ -92,44 +176,38 @@ export default function StoryMiniGame() {
               <ArrowLeft className="h-6 w-6" />
             </Button>
             <CardTitle className="text-3xl font-bold text-center">
-              The Enchanted Chronicles: Interactive Mini-Games
+              {GAME_CONFIG.title}
             </CardTitle>
           </div>
           <CardDescription className="text-center text-lg mt-2">
-            Dive deeper into the magical world of our story!
+            {GAME_CONFIG.description}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full bg-violet-600">
-              <TabsTrigger value="quiz" className="w-full">
-                <Book className="w-5 h-5 mr-2" />
-                Quiz
-              </TabsTrigger>
-              <TabsTrigger value="polls" className="w-full">
-                <PieChart className="w-5 h-5 mr-2" />
-                Polls
-              </TabsTrigger>
-              <TabsTrigger value="predictions" className="w-full">
-                <Zap className="w-5 h-5 mr-2" />
-                Predictions
-              </TabsTrigger>
+              {GAME_CONFIG.tabs.map(tab => (
+                <TabsTrigger key={tab.id} value={tab.id} className="w-full">
+                  <tab.icon className="w-5 h-5 mr-2" />
+                  {tab.label}
+                </TabsTrigger>
+              ))}
             </TabsList>
             <TabsContent value="quiz">
               <Card className="bg-violet-600">
                 <CardHeader>
-                  <CardTitle>Story Quiz Challenge</CardTitle>
-                  <CardDescription>Test your knowledge of the latest chapter!</CardDescription>
+                  <CardTitle>{quiz.title}</CardTitle>
+                  <CardDescription>{quiz.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {!quizCompleted ? (
                     <div>
                       <h3 className="text-xl font-semibold mb-4">
-                        Question {currentQuestionIndex + 1} of {quizQuestions.length}
+                        Question {currentQuestionIndex + 1} of {quiz.questions.length}
                       </h3>
-                      <p className="mb-4">{quizQuestions[currentQuestionIndex].question}</p>
+                      <p className="mb-4">{quiz.questions[currentQuestionIndex].question}</p>
                       <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer}>
-                        {quizQuestions[currentQuestionIndex].options.map((option, index) => (
+                        {quiz.questions[currentQuestionIndex].options.map((option, index) => (
                           <div key={index} className="flex items-center space-x-2 mb-2">
                             <RadioGroupItem value={option} id={`option-${index}`} />
                             <Label htmlFor={`option-${index}`}>{option}</Label>
@@ -141,7 +219,7 @@ export default function StoryMiniGame() {
                     <div className="text-center">
                       <h3 className="text-2xl font-bold mb-4">Quiz Completed!</h3>
                       <p className="text-xl mb-4">
-                        Your Score: {quizScore} / {quizQuestions.length}
+                        Your Score: {quizScore} / {quiz.questions.length}
                       </p>
                       <Button onClick={resetQuiz}>Try Again</Button>
                     </div>
@@ -150,12 +228,12 @@ export default function StoryMiniGame() {
                 <CardFooter className="flex justify-between">
                   {!quizCompleted && (
                     <Button onClick={handleAnswerSubmit} disabled={!selectedAnswer}>
-                      {currentQuestionIndex < quizQuestions.length - 1 ? "Next Question" : "Finish Quiz"}
+                      {currentQuestionIndex < QUIZ_CONFIG.questions.length - 1 ? "Next Question" : "Finish Quiz"}
                     </Button>
                   )}
                   <div className="text-sm text-muted-foreground">
                     {/* <Progress  */}
-                    Progress: {((currentQuestionIndex + 1) / quizQuestions.length) * 100}%
+                    Progress: {((currentQuestionIndex + 1) / QUIZ_CONFIG.questions.length) * 100}%
                   </div>
                 </CardFooter>
               </Card>
@@ -163,19 +241,19 @@ export default function StoryMiniGame() {
             <TabsContent value="polls">
               <Card className="bg-violet-600">
                 <CardHeader>
-                  <CardTitle>Reader's Choice Poll</CardTitle>
-                  <CardDescription>Share your opinion on the story's direction!</CardDescription>
+                  <CardTitle>{poll.title}</CardTitle>
+                  <CardDescription>{poll.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <h3 className="text-xl font-semibold mb-4">Who is your favorite character?</h3>
+                  <h3 className="text-xl font-semibold mb-4">{poll.question}</h3>
                   <div className="space-y-4">
-                    {["option1", "option2", "option3"].map((option, index) => (
-                      <div key={option} className="flex items-center justify-between">
-                        <Button onClick={() => handlePollVote(option as PollOption)} variant="reverse" className="w-full mr-4">
-                          Character {index + 1}
+                    {poll.options.map((option) => (
+                      <div key={option.id} className="flex items-center justify-between">
+                        <Button onClick={() => handlePollVote(option.id as PollOption)} variant="reverse" className="w-full mr-4">
+                          {option.label}
                         </Button>
                         <Progress
-                          value={(pollVotes[option as PollOption] / Object.values(pollVotes).reduce((a, b) => a + b, 0)) * 100}
+                          value={(pollVotes[option.id as PollOption] / Object.values(pollVotes).reduce((a, b) => a + b, 0)) * 100}
                           className="w-1/3"
                         />
                       </div>
@@ -187,15 +265,15 @@ export default function StoryMiniGame() {
             <TabsContent value="predictions">
               <Card className="bg-violet-600">
                 <CardHeader>
-                  <CardTitle>Crystal Ball Predictions</CardTitle>
-                  <CardDescription>What do you think will happen next?</CardDescription>
+                  <CardTitle>{predictions.title}</CardTitle>
+                  <CardDescription>{predictions.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <Label htmlFor="prediction">Your Prediction</Label>
                     <Input
                       id="prediction"
-                      placeholder="Enter your prediction for the next chapter..."
+                      placeholder={predictions.inputPlaceholder}
                       value={prediction}
                       onChange={(e) => setPrediction(e.target.value)}
                     />
@@ -229,7 +307,7 @@ export default function StoryMiniGame() {
           >
             <div className="flex items-center space-x-2">
               <Trophy className="h-6 w-6" />
-              <span className="font-bold">Achievement Unlocked: Quiz Master!</span>
+              <span className="font-bold">{ACHIEVEMENT_CONFIG.title}</span>
             </div>
           </motion.div>
         )}

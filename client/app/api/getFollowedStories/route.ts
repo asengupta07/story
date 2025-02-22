@@ -41,3 +41,5 @@ async function getHandler(request: NextRequest) {
         return NextResponse.json({ error: "Failed to fetch stories" }, { status: 500 });
     }
 }
+
+export { getHandler as GET }

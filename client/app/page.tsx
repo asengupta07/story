@@ -33,7 +33,7 @@ export default function LandingPage() {
   }, [user]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex min-h-screen flex-col bg-violet-100 dark:bg-bw items-center">
       <NavBar />
       <main className="flex-1">
         {/* Hero Section */}
