@@ -18,7 +18,6 @@ import { useGasPrice, useWriteContract } from "wagmi";
 import { polygonAmoy } from "wagmi/chains";
 import { formatEther, parseEther } from "viem";
 import { abi, contractAddress } from "../abi";
-// import { tokenAddress, tokenAbi } from "../abi"
 
 export default function TokenSwap() {
   const { data: gasData, refetch } = useGasPrice({
@@ -30,7 +29,7 @@ export default function TokenSwap() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { writeContractAsync } = useWriteContract();
-  const exchangeRate = 1000000;
+  const exchangeRate = 10000;
 
   function handleSwap() {
     setIsLoading(true);
@@ -131,11 +130,11 @@ export default function TokenSwap() {
             <div className="mt-6 text-sm">
               <div className="flex justify-between">
                 <span>Exchange rate:</span>
-                <span>1 ETH = {exchangeRate.toLocaleString()} Story</span>
+                <span>1 POL = {exchangeRate.toLocaleString()} $STORY</span>
               </div>
               <div className="flex justify-between mt-2">
                 <span>Estimated gas fee:</span>
-                <span>{gasFee} ETH</span>
+                <span>{gasFee} POL</span>
               </div>
             </div>
           </CardContent>
