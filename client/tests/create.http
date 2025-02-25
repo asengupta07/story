@@ -24,8 +24,7 @@ Content-Type: application/json
     "contentWarnings": ["Fantasy violence", "Mature themes"],
     "additionalInstructions": "Include a subplot about a love triangle between the characters.",
     "user": {
-        "alias": "John Doe",
-        "publicKey": "1234567890"
+        "email": "arnabsengupta104@gmail.com"
     },
     "agentWriter": true,
     "interval": 1000

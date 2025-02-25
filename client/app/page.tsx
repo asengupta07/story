@@ -9,31 +9,27 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Code, Coins, PenTool, Sparkles, Users } from "lucide-react";
 import LoginButton from "@/components/functions/ConnectButton";
 import NavBar from "@/components/functions/NavBar";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
-import { usePrivy } from "@privy-io/react-auth";
 
 export default function LandingPage() {
-  const { address } = useAccount();
-  const { user } = usePrivy();
   const router = useRouter();
 
-  const checkUser = async () => {
-    const response = await fetch(`/api/getUser?address=${user?.wallet?.address}`);
-    const data = await response.json();
-    if (data.user) {
-      router.push("/dashboard");
-    }
-  }
-  useEffect(() => {
-    if (user) {
-      checkUser();
-      router.push("/setup");
-    }
-  }, [user]);
+  // const checkUser = async () => {
+  //   const response = await fetch(`/api/getUser?address=${user?.wallet?.address}`);
+  //   const data = await response.json();
+  //   if (data.user) {
+  //     router.push("/dashboard");
+  //   }
+  // }
+  // useEffect(() => {
+  //   if (user) {
+  //     // checkUser();
+  //     router.push("/setup");
+  //   }
+  // }, [user]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-violet-100 dark:bg-bw items-center">
+    <div className="flex min-h-screen flex-col items-center">
       <NavBar />
       <main className="flex-1">
         {/* Hero Section */}
@@ -51,7 +47,7 @@ export default function LandingPage() {
                 <br />
                 Through{" "}
                 <span className="bg-gradient-to-r dark:from-white from-black dark:to-purple-600 to-purple-600 bg-clip-text text-transparent">
-                  Web3 Innovation
+                  AI Innovation
                 </span>
               </h1>
               <p className="mb-8 text-xl text-muted-foreground">

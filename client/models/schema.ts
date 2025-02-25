@@ -28,7 +28,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    publicKey: {
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
         type: String,
         required: true
     }
@@ -116,7 +120,11 @@ const StorySchema = new mongoose.Schema({
         ref: 'User',
         required: true
     }
-});
+},
+    {
+        timestamps: true
+    }
+);
 
 const StoryStatusSchema = new mongoose.Schema({
     story: {
@@ -178,13 +186,122 @@ const ChapterSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     }
+},
+    {
+        timestamps: true
+    }
+);
+
+
+const BrandSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    product: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    storyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    },
+    brandId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected', 'completed'],
+        default: 'pending',
+        required: true
+    }
+},
+    {
+        timestamps: true
+    }
+);
+
+
+const QuestionSchema = new mongoose.Schema({
+    question: {
+        type: String,
+        required: true
+    },
+    options: {
+        type: [String],
+        required: true
+    },
+    correctAnswer: {
+        type: String,
+        required: true
+    }
 });
 
+const QuizSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    questions: {
+        type: [QuestionSchema],
+        required: true
+    },
+    chapter: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chapter',
+        required: true
+    }
+});
+
+const PointSchema = new mongoose.Schema({
+    point: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    story: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    }
+});
+
+const FollowSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    story: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story',
+        required: true
+    }
+});
 
 const Story = mongoose.models.Story || mongoose.model('Story', StorySchema);
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 const Chapter = mongoose.models.Chapter || mongoose.model('Chapter', ChapterSchema);
 const StorySettings = mongoose.models.StorySettings || mongoose.model('StorySettings', StorySettingsSchema);
-const StoryStatus = mongoose.models.StoryStatus || mongoose.model('StoryStatus', StoryStatusSchema);    
+const StoryStatus = mongoose.models.StoryStatus || mongoose.model('StoryStatus', StoryStatusSchema);
 const EndgameProtocol = mongoose.models.EndgameProtocol || mongoose.model('EndgameProtocol', EndgameProtocolSchema);
-export { Story, User, Chapter, StorySettings, StoryStatus, EndgameProtocol };
+const Brand = mongoose.models.Brand || mongoose.model('Brand', BrandSchema);
+const Point = mongoose.models.Point || mongoose.model('Point', PointSchema);
+const Follow = mongoose.models.Follow || mongoose.model('Follow', FollowSchema);
+export { Story, User, Chapter, StorySettings, StoryStatus, EndgameProtocol, Brand, Point, Follow };

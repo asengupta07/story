@@ -8,8 +8,9 @@ export interface CharacterInterface {
 
 export interface UserInterface {
     alias?: string;
-    publicKey: string;
+    email: string;
     role?: string;
+    password?: string;
 }
 
 

@@ -5,11 +5,11 @@ import { Chapter, Story, StorySettings, StoryStatus, User } from "@/models/schem
 
 async function getHandler(request: NextRequest) {
     const { searchParams } = new URL(request.url);
-    const address = searchParams.get("address");
+    const email = searchParams.get("email");
 
     await connectToDatabase();
     try {
-        const user = await User.findOne({ publicKey: address });
+        const user = await User.findOne({ email: email });
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }

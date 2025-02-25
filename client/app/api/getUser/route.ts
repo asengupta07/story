@@ -6,13 +6,13 @@ async function getHandler(request: NextRequest) {
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);
-    const address = searchParams.get('address');
+    const email = searchParams.get('email');
 
-    if (!address) {
-        return NextResponse.json({ error: 'Address is required' }, { status: 400 });
+    if (!email) {
+        return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    const user = await User.findOne({ publicKey: address });
+    const user = await User.findOne({ email: email });
 
     if (!user) {
         return NextResponse.json({ error: 'User not found' }, { status: 401 });

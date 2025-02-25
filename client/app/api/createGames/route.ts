@@ -43,7 +43,7 @@ async function createQuiz(story: StoryInterface, chapters: ChapterInterface[]) {
             {
                 "question": "Question 1",
                 "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                "answer": "Option 1"
+                "correctAnswer": "Option 1"
             },
             ...
         ]

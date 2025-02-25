@@ -24,7 +24,7 @@ async function postHandler(request: NextRequest) {
 
         await connectToDatabase();
 
-        const userData = await User.findOne({ publicKey: user.publicKey });
+        const userData = await User.findOne({ email: user.email });
 
         if (!userData) {
             return NextResponse.json({ success: false, error: "User not found" }, { status: 400 });

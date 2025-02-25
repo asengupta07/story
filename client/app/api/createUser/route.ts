@@ -7,9 +7,9 @@ import { UserInterface } from "@/types";
 async function postHandler(request: NextRequest) {
     await connectToDatabase();
 
-    const { alias, publicKey, role }: UserInterface = await request.json();
+    const { alias, email, role, password }: UserInterface = await request.json();
 
-    const user = await User.create({ alias, publicKey, role });
+    const user = await User.create({ alias, email, role, password });
 
     return NextResponse.json({ success: true, user }, { status: 200 });
 }
