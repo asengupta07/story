@@ -89,6 +89,12 @@ export default function NavBar() {
                     >
                         Read Stories
                     </Link>
+                    <Link
+                        href="/upcoming"
+                        className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
+                    >
+                        Upcoming Features
+                    </Link>
                     {/* <Link
                         href="/brand/dashboard"
                         className="text-lg font-bold hover:text-primary transition duration-300 ease-in-out transform hover:scale-110"
@@ -139,6 +145,13 @@ export default function NavBar() {
                             }}
                         >
                             <span className="relative z-10">Read Stories</span>
+                        </Link>
+                        <Link
+                            href="/upcoming"
+                            className="w-full text-lg font-bold relative active:scale-95 transition-transform px-4 py-3 rounded-lg bg-gradient-to-r from-transparent to-transparent bg-[size:200%] bg-right hover:bg-left active:bg-left duration-300"
+                            onClick={toggleMenu}
+                        >
+                            <span className="relative z-10">Upcoming Features</span>
                         </Link>
                     </nav>
                 </div>
