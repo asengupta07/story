@@ -27,7 +27,9 @@ async function getHandler(request: NextRequest) {
             };
         }));
 
-        return NextResponse.json(storiesWithStatuses, { status: 200 });
+        const response = storiesWithStatuses.sort((a, b) => b.followers - a.followers);
+
+        return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch stories" }, { status: 500 });
     }
