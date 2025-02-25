@@ -87,7 +87,7 @@ export default function UpcomingPage() {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold">Upcoming Changes</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Exciting new features are on the horizon! Check out what we're working on and suggest new features you'd like to see.
+            Exciting new features are on the horizon! Check out what we&apos;re working on and suggest new features you&apos;d like to see.
           </p>
         </div>
 
@@ -139,7 +139,7 @@ export default function UpcomingPage() {
               <CardHeader>
                 <CardTitle>Request a New Feature</CardTitle>
                 <CardDescription>
-                  Let us know what features you'd like to see in StoryBoard!
+                  Let us know what features you&apos;d like to see in StoryBoard!
                 </CardDescription>
               </CardHeader>
               <CardContent>
