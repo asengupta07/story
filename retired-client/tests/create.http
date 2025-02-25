@@ -1,0 +1,32 @@
+POST http://localhost:3000/api/create
+Content-Type: application/json
+
+{
+    "title": "Test Story",
+    "genre": "Fantasy",
+    "tone": "Adventure",
+    "targetAudience": "Young Adults",
+    "premise": "A young wizard discovers a hidden world of magic and adventure.",
+    "setting": "A medieval fantasy world",
+    "timePeriod": "1500s",
+    "characters": [
+        {
+            "name": "John",
+            "description": "A young wizard with a kind heart",
+            "role": "Protagonist",
+            "backstory": "John was born in a small village in the kingdom of Eldoria. He was always fascinated by the stories of magic and adventure, and dreamed of becoming a powerful wizard like the ones he read about in books."
+        }
+    ],
+    "themes": "Magic, Adventure, Friendship",
+    "moral": "The importance of following your dreams and never giving up.",
+    "writingStyle": "Epic, Magical, Exciting",
+    "wordCount": 1000,
+    "contentWarnings": ["Fantasy violence", "Mature themes"],
+    "additionalInstructions": "Include a subplot about a love triangle between the characters.",
+    "user": {
+        "alias": "John Doe",
+        "publicKey": "1234567890"
+    },
+    "agentWriter": true,
+    "interval": 1000
+}
