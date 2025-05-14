@@ -13,7 +13,7 @@ async function generate(prompt: string) {
         messages: [{ role: "user", content: prompt }],
     });
     const contentWithThoughts = response.choices[0].message.content;
-    const contentWithoutThoughts = contentWithThoughts?.replace(/<think>.*?<\/think>/g, "");
+    const contentWithoutThoughts = contentWithThoughts.split("</think>").pop().trim();
     return contentWithoutThoughts;
 }
 
