@@ -13,6 +13,7 @@ async function generate(prompt: string) {
         messages: [{ role: "user", content: prompt }],
     });
     const contentWithThoughts = response.choices[0].message.content;
+    console.log("Content", contentWithThoughts);
     const contentWithoutThoughts = contentWithThoughts.split("</think>").pop().trim();
     return contentWithoutThoughts;
 }
