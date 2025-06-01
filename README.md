@@ -5,7 +5,7 @@
 ---
 
 ## **1. Introduction**
-StoryForge is an interactive storytelling platform where creators, readers, and brands collaborate. Combining AI-assisted writing, gamified reader engagement, and traditional monetization, StoryForge enables a dynamic, reader-influenced storytelling experience.
+StoryBoard is an interactive storytelling platform where creators, readers, and brands collaborate. Combining AI-assisted writing, gamified reader engagement, and traditional monetization, StoryBoard enables a dynamic, reader-influenced storytelling experience.
 
 ---
 
